@@ -1,0 +1,37 @@
+{% extends 'sablon.html' %}
+
+{% block content %}
+
+    <section>
+      <div class="container my-5 text-center h-100 py-5">
+           <h1 class="text-uppercase font-weight-normal feher d-none d-lg-block">Összes könyv</h1>
+
+            <form method="POST" action="{% url 'proapp:excellekeres' %}">
+                  {% csrf_token %}
+                  <button class="btn btn-success mb-2" type="submit">Excel lekérés</button>
+            </form>
+
+            <form method="POST" action="{% url 'proapp:wordlekeres' %}">
+                  {% csrf_token %}
+                  <button class="btn btn-primary mb-2" type="submit">Word lekérés</button>
+            </form>
+
+            <form method="POST" action="{% url 'proapp:pdflekeres' %}" target="_blank">
+                  {% csrf_token %}
+                  <button class="btn btn-info px-3" type="submit">PDF lekérés</button>
+            </form>
+
+           <div class="row mt-5 h-100">
+               {% for i in object_list %}
+                  <div class="col-lg-3 px-2 my-3">
+                    <img class="img-fluid" src="/static/{{ i.fajlnev }}">
+                    <p><a href="{% url 'proapp:konyv' id=i.id %}" class="feher konyvpfeher">{{ i.iro }}: {{ i.cim }}</a></p>
+                    <p class="feher" {% if i.iro == 'Gárdonyi Géza' %}style="text-decoration: underline" {% endif %}>{{ i.leiras }}</p>
+                    <p class="feher" {% if i.id == utolsoId %}style="text-decoration: underline" {% endif %}>{{ i.ar }}</p>
+                  </div>
+               {% endfor %}
+            </div>
+      </div>
+    </section>
+
+{% endblock %}

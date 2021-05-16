@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Könyvtár</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/a9b7addad0.js" crossorigin="anonymous"></script>
+    <style>
+        .navbar{
+          transition: all 0.5s;
+        }
+      .navlink {
+          color: white;
+          font-weight: normal;
+          font-size: 1.4rem;
+      }
+        .navlink:hover {
+          color: #b8daff;
+          text-decoration: none;
+      }
+        .hatter {
+          height: 100vh;
+          background-image: url('{% static 'konyvhatter.jpg'%}');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        .feher {
+          color: white;
+      }
+        .szurkehatter {
+          background-color: #424240!important;
+      }
+        .btn-outline-light:hover {
+          background-color: #b8daff;
+            border-color: #b8daff;
+            color: #424240;
+      }
+        .vkek {
+            color: #b8daff
+        }
+        .vkekp {
+            font-size: 2rem;
+            color: #b8daff
+        }
+        .konyvp {
+            font-size: 2rem;
+            color: #b8daff;
+            min-height: 100px;
+        }
+        .konyvpfeher {
+            font-size: 2rem;
+            color: white
+        }
+        .img-fluid {
+            height: 350px;
+
+        }
+        @media only screen and (max-width: 600px) {
+          .img-fluid {
+            height: 500px;
+          }
+        }
+        .icon {
+            font-size: 60px;
+            color: white
+        }
+
+    </style>
+
+    {% block top %}
+    {% endblock %}
+
+</head>
+<body class="szurkehatter">
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark py-3" style="background-color: transparent">
+     <div class="container">
+      <a class="navlink text-uppercase" href="{% url 'proapp:kezdolap' %}">helyi könyvtár</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mx-auto">
+          <a class="navlink mx-lg-4 text-uppercase" href="{% url 'proapp:estek' %}">Esték</a>
+          <a class="navlink mx-lg-4 text-uppercase" href="{% url 'proapp:konyvek' %}">Könyvek</a>
+          <a class="navlink mx-lg-4 text-uppercase" href="{% url 'proapp:kapcsolat' %}">Kapcsolat</a>
+        </div>
+          {% if user.is_authenticated %}
+             <a class="btn btn-outline-light text-uppercase" href="{% url 'logout' %}">Kijelentkezés</a>
+            {% else %}
+            <a class="btn btn-outline-light text-uppercase" href="{% url 'login' %}">Bejelentkezés</a>
+            {% endif %}
+      </div>
+     </div>
+    </nav>
+
+{% block content %}
+{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 70 || document.documentElement.scrollTop > 70) {
+    $(".navbar").addClass('shadow-sm szurkehatter');
+
+  } else {
+    $(".navbar").removeClass('shadow-sm szurkehatter');
+  }
+  if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+    $(".navbar").removeClass('py-3')
+
+  } else {
+    $(".navbar").addClass('py-3');
+
+  }
+}
+
+$(".navbar-toggler").click(function (e) {
+    $(".navbar").toggleClass('szurkehatter');
+    e.preventDefault();
+});
+
+</script>
+{% block script %}
+{% endblock %}
+</body>
+</html>

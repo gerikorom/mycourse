@@ -1,0 +1,79 @@
+{% extends 'sablon.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <section>
+      <div class="container my-5 text-center h-100 py-5">
+       <div class="row py-2">
+               <div class="col-lg-5 mx-auto my-3">
+                   <button type="button" class="btn btn-lg btn-outline-light text-uppercase mt-auto" data-toggle="modal" data-target="#exampleModal">
+                    Időpont foglalás
+                    </button>
+              </div>
+            </div>
+           <div class="row mt-5 h-100">
+               {% for i in estek %}
+                  <div class="col-lg-3 px-2 my-3">
+                    <p class="feher">{{ i.elnevezes }}</p>
+                    <p class="feher">Időpont: {{ i.idopont |date:"Y.m.d." }}</p>
+                    <p class="feher">Szabad helyek száma: {{ i.helyekszama }}</p>
+                  </div>
+               {% endfor %}
+            </div>
+
+      </div>
+    </section>
+
+       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Olvasóest időpont foglalás</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="foglalasform">
+                     {% csrf_token %}
+                     {{ form|crispy }}
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Mégse</button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+    $("#id_olvasoest").change(function (e) {
+        e.preventDefault();
+        var adatok = $("#foglalasform").serialize();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'proapp:estek' %}",
+            data: adatok,
+            success: function (response) {
+                $("#exampleModal").modal('hide');
+                $("#foglalasform").trigger('reset');
+                alert(response['uzenet']);
+            },
+            error: function (response) {
+                alert('Hiba történt!');
+                location.reload()
+            }
+        })
+    });
+    $("#id_olvasoest").change(function () {
+        $("#id_olvasoest").removeClass('is-invalid')
+    });
+
+</script>
+{% endblock %}

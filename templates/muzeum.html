@@ -1,0 +1,87 @@
+{% extends 'sablon.html' %}
+
+
+{% block content %}
+
+
+
+    <section>
+      <div class="container my-5 text-center h-100 py-5">
+           <h1 class="text-uppercase font-weight-normal feher">Múzeum</h1>
+
+           <h4 class="text-uppercase font-weight-normal feher">
+                Jegyek elővételben
+           </h4>
+
+           <h4 class="font-weight-normal feher pb-3">
+               999 Ft
+           </h4>
+
+           <div class="row">
+               <div class="col-lg-4 mx-auto">
+                <div id="paypal-button-container"></div>
+               </div>
+           </div>
+
+           <div class="row">
+               <div class="col-lg-4 mx-auto">
+                <div id="paypal-button-container2"></div>
+               </div>
+           </div>
+
+
+      </div>
+    </section>
+
+{% endblock %}
+
+{% block script %}
+    <script src="https://www.paypal.com/sdk/js?client-id=CLIENT_ID&currency=HUF&vault=true&locale=hu_HU" data-sdk-integration-source="button-factory"></script>
+    <script>
+        paypal.Buttons({
+          style: {
+            layout:  'vertical',
+            color:   'blue',
+            shape:   'pill',
+            label:   'paypal',
+            size: 'small',
+            fundingicons: 'false'
+          },
+            createOrder: function(data, actions) {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    value: '999'
+                  }
+                }]
+              });
+            },
+            onApprove: function(data, actions) {
+              // Capture the funds from the transaction
+              return actions.order.capture().then(function(details) {
+                    alert('Fizetve ' + details.payer.name.given_name + ' által!');
+              });
+            }
+          }).render('#paypal-button-container');
+
+        paypal.Buttons({
+          style: {
+              shape: 'pill',
+              color: 'blue',
+              layout: 'vertical',
+              label: 'paypal'
+          },
+          createSubscription: function(data, actions) {
+            return actions.subscription.create({
+              'plan_id': 'PLAN_ID'
+
+            });
+          },
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                    alert('Fizetve ' + details.payer.name.given_name + ' által!');
+              });
+          }
+        }).render('#paypal-button-container2');
+    </script>
+{% endblock %}

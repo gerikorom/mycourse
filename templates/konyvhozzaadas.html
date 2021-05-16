@@ -1,0 +1,21 @@
+{% extends 'sablon.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <section style="background-color: white" class="my-5">
+      <div class="container py-5">
+
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6">
+                {{ form|crispy }}
+              </div>
+            </div>
+          <button class="btn btn-primary" type="submit">Mentés</button>
+        </form>
+
+      </div>
+    </section>
+
+{% endblock %}

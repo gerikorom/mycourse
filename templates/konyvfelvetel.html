@@ -1,0 +1,81 @@
+{% extends 'sablon.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <style>
+        .errorlist li{
+          color: red;
+        }
+    </style>
+    <section style="background-color: white" class="my-5">
+      <div class="container py-5">
+
+        <!--
+        <form method="POST" action="{% url 'proapp:konyvfelvetel' %}" class="pb-5">
+            {% csrf_token %}
+          <div class="form-row">
+              <div class="form-group col-md-4">
+                  <label for="cim">Cím</label>
+                  <input type="text" class="form-control" id="cim" name="cim" required oninvalid="this.setCustomValidity('Kérjük adja meg!')">
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-4">
+                  <label for="iro">Író</label>
+                  <input type="text" class="form-control" id="iro" name="iro" required oninvalid="this.setCustomValidity('Kérjük adja meg!')">
+              </div>
+          </div>
+
+          <div class="form-row">
+              <div class="form-group col-md-4">
+                  <label for="ar">Ár</label>
+                  <input type="number" class="form-control" id="ar" name="ar" required oninvalid="this.setCustomValidity('Kérjük adja meg!')">
+              </div>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Mentés</button>
+        </form>
+        -->
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-4">
+                 <label for="id_ar">Ár</label>
+                 {{ form.ar }}
+                  {{ form.ar.errors }}
+              </div>
+            </div>
+          <button class="btn btn-primary" type="submit">Mentés</button>
+        </form>
+
+        <!--
+          <form method="POST" class="py-3">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-4">
+               {% for m in form %}
+                <div>
+                    {{ m.errors }}
+                    {{ m.label_tag }} {{ m }}
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+          <button class="btn btn-primary" type="submit">Mentés</button>
+        </form>
+
+
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-4">
+                {{ form|crispy }}
+              </div>
+            </div>
+          <button class="btn btn-primary" type="submit">Mentés</button>
+        </form>
+        -->
+      </div>
+    </section>
+
+{% endblock %}

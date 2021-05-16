@@ -1,0 +1,21 @@
+{% extends 'sablon.html' %}
+
+{% block content %}
+
+    <section>
+      <div class="container my-5 text-center h-100 py-5">
+           <h1 class="text-uppercase font-weight-normal feher d-none d-lg-block">Kiválasztott Könyv</h1>
+
+           <div class="row mt-5 h-100">
+                  <div class="col-lg-3 mx-auto">
+                    <img class="img-fluid" src="/static/biblia.jpeg">
+                    <p class="feher konyvpfeher">{{ object.iro }}: {{ object.cim }}</p>
+                    <p class="feher">{{ object.leiras }}</p>
+                    <p class="feher">{{ object.ar }}</p>
+                  </div>
+
+            </div>
+      </div>
+    </section>
+
+{% endblock %}

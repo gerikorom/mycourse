@@ -1,0 +1,62 @@
+{% extends 'sablon.html' %}
+
+{% block top %}
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv0wcMDvVORZZ2lTEXP37MCqbv99q307o&callback=initMap&libraries=&v=weekly"
+      defer></script>
+    <style type="text/css">
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;
+        /* The height is 400 pixels */
+        width: 100%;
+        /* The width is the width of the web page */
+      }
+    </style>
+    <script>
+      // Initialize and add the map
+      function initMap() {
+        // The location of Uluru
+        const balaton = { lat: 46.845041, lng: 17.744892 };
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 9,
+          center: balaton,
+        });
+        // The marker, positioned at Uluru
+        const marker = new google.maps.Marker({
+          position: balaton,
+          map: map,
+        });
+        const keszthely = { lat: 46.770652, lng: 17.240636 };
+        const marker2 = new google.maps.Marker({
+          position: keszthely,
+          map: map,
+        });
+      }
+    </script>
+
+{% endblock %}
+{% block content %}
+
+
+
+    <section>
+      <div class="container my-5 text-center h-100 py-5">
+           <h1 class="text-uppercase font-weight-normal feher">Keressen minket bármilyen kérdéssel!</h1>
+
+           <h4 class="text-uppercase font-weight-normal feher">
+                +36 000 000 00
+           </h4>
+
+           <h4 class="font-weight-normal feher pb-3">
+               <a href="mailto:konyvtar@helyikonyvtar.hu" style="color: white">konyvtar@helyikonyvtar.hu</a>
+           </h4>
+
+           <div id="map"></div>
+
+
+      </div>
+    </section>
+
+{% endblock %}

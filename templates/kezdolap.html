@@ -1,0 +1,306 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Könyvtár</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/a9b7addad0.js" crossorigin="anonymous"></script>
+    <style>
+        .navbar{
+          transition: all 0.5s;
+        }
+      .navlink {
+          color: white;
+          font-weight: normal;
+          font-size: 1.4rem;
+      }
+        .navlink:hover {
+          color: #b8daff;
+          text-decoration: none;
+      }
+        .hatter {
+          height: 100vh;
+          background-image: url('{% static 'konyvhatter.jpg'%}');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        .feher {
+          color: white;
+      }
+        .szurkehatter {
+          background-color: #424240!important;
+      }
+        .btn-outline-light:hover {
+          background-color: #b8daff;
+            border-color: #b8daff;
+            color: #424240;
+      }
+        .vkek {
+            color: #b8daff
+        }
+        .vkekp {
+            font-size: 2rem;
+            color: #b8daff
+        }
+        .konyvp {
+            font-size: 2rem;
+            color: #b8daff;
+            min-height: 100px;
+        }
+        .konyvpfeher {
+            font-size: 2rem;
+            color: white
+        }
+        .img-fluid {
+            height: 350px;
+
+        }
+        @media only screen and (max-width: 600px) {
+          .img-fluid {
+            height: 500px;
+          }
+        }
+        .icon {
+            font-size: 60px;
+            color: white
+        }
+
+    </style>
+</head>
+<body class="szurkehatter">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark py-3" style="background-color: transparent">
+     <div class="container">
+      <a class="navlink text-uppercase" href="#">helyi könyvtár</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mx-auto">
+          <a class="navlink mx-lg-4 text-uppercase" href="{% url 'proapp:estek' %}">Esték <span class="sr-only">(current)</span></a>
+          <a class="navlink mx-lg-4 text-uppercase" href="{% url 'proapp:konyvek' %}">Könyvek</a>
+          <a class="navlink mx-lg-4 text-uppercase" href="{% url 'proapp:kapcsolat' %}">Kapcsolat</a>
+        </div>
+           {% if user.is_authenticated %}
+             <a class="btn btn-outline-light text-uppercase" href="{% url 'logout' %}">Kijelentkezés</a>
+            {% else %}
+            <a class="btn btn-outline-light text-uppercase" href="{% url 'login' %}">Bejelentkezés</a>
+            {% endif %}
+      </div>
+     </div>
+    </nav>
+
+
+
+
+    <header class="hatter">
+      <div class="container h-100">
+        <div class="row h-100 align-items-center">
+          <div class="col-12 text-center pt-3">
+            <h1 class="vkek text-uppercase font-weight-normal display-1 feher d-none d-lg-block">Olvasni öröm</h1>
+            <h1 class="vkek text-uppercase font-weight-normal display-2 feher d-block d-lg-none">Olvasni öröm</h1>
+          </div>
+          <div class="col-12 text-center mt-auto py-5 mb-3">
+                <h1 class="text-uppercase font-weight-normal display-2 feher d-none d-lg-block">csatlakozz a könyvtárhoz</h1>
+               <h1 class="text-uppercase font-weight-normal feher d-block d-lg-none">csatlakozz a könyvtárhoz</h1>
+                   <a class="btn btn-lg btn-outline-light text-uppercase" href="{% url 'proapp:konyvek' %}">Könyv kölcsönzés</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="border-top">
+      <div class="container my-5 text-center h-100 pb-5">
+           <h2 class="text-uppercase font-weight-normal display-1 feher d-none d-lg-block">Szolgáltatásaink</h2>
+           <h2 class="text-uppercase font-weight-normal display-4 feher d-block d-lg-none">Szolgáltatásaink</h2>
+
+           <div class="row mt-5 h-100">
+              <div class="col-lg-4 px-5 px-lg-2 my-3">
+               <div class="py-5 border">
+                <h3 class="text-uppercase font-weight-normal feher display-4">olvasó esték</h3>
+                <p  class="py-3 vkekp">Minden<br>kedd és péntek<br>este 8 órától</p>
+                {% if user.is_authenticated %}
+                <button type="button" class="btn btn-lg btn-outline-light text-uppercase mt-auto" data-toggle="modal" data-target="#exampleModal">
+                Időpont foglalás
+                </button>
+                {% else %}
+                <a class="btn btn-lg btn-outline-light text-uppercase" href="{% url 'login' %}">Jelentkezzen be!</a>
+                {% endif %}
+               </div>
+              </div>
+               <div class="col-lg-4 px-5 px-lg-2 my-3">
+                   <div class="py-5 border">
+                    <h3 class="text-uppercase font-weight-normal feher display-4">könyv kölcsönzés</h3>
+                    <p class="py-3 vkekp">Hatalmas választék<br>Online rendelés<br>és hosszabbítás</p>
+                    <a class="btn btn-lg btn-outline-light text-uppercase mt-auto" href="{% url 'proapp:konyvek' %}">Választék megtekintése</a>
+                  </div>
+              </div>
+                <div class="col-lg-4 px-5 px-lg-2 my-3">
+                   <div class="py-5 border">
+                    <h3 class="text-uppercase font-weight-normal feher display-4">könyv múzeum</h3>
+                    <p  class="py-3 vkekp">Világon<br>egyedülálló<br>kiállítás</p>
+                    <a class="btn btn-lg btn-outline-light text-uppercase mt-auto" href="{% url 'proapp:muzeum' %}">Jegy vásárlás</a>
+                  </div>
+              </div>
+            </div>
+      </div>
+    </section>
+
+    <section class="border-top">
+      <div class="container my-5 text-center h-100 py-5">
+           <h2 class="text-uppercase font-weight-normal display-1 feher d-none d-lg-block">Legfrissebb könyvek</h2>
+           <h2 class="text-uppercase font-weight-normal display-4 feher d-block d-lg-none">Legfrissebb könyvek</h2>
+
+           <div class="row mt-5 h-100">
+               {% for i in konyvek %}
+                  <div class="col-lg-3 px-2 my-3">
+                    <img class="img-fluid" src="/static/{{ i.fajlnev }}">
+                    <p class="feher konyvpfeher">{{ i.iro }}: {{ i.cim }}</p>
+                    <p class="feher">{{ i.leiras }}</p>
+                    <p class="feher">{{ i.ar }}</p>
+                  </div>
+               {% endfor %}
+
+            </div>
+           <div class="row py-2">
+               <div class="col-lg-5 mx-auto my-3">
+                    <a class="btn btn-block btn-lg btn-outline-light text-uppercase mt-auto" href="{% url 'proapp:konyvek' %}">Továbbiak</a>
+              </div>
+            </div>
+      </div>
+    </section>
+
+
+    <section class="border-top">
+      <div class="container my-5 text-center h-100 py-5">
+          <h2 class="text-uppercase font-weight-normal display-1 feher">Olvasó esték</h2>
+
+            <div class="row mt-5 h-100">
+              <div class="col-lg-6 px-5 my-3">
+                  <div class="py-5 border rounded-lg">
+                    <h3 class="text-uppercase font-weight-normal feher display-4">nyilvános</h3>
+                        <i class="fas fa-book-open icon"></i>
+                    <p  class="py-3 vkekp px-lg-5 px-3">Minden este új művel várjuk a kedves érdeklődőket</p>
+                    {% if user.is_authenticated %}
+                    <button type="button" class="btn btn-lg btn-outline-light text-uppercase mt-auto" data-toggle="modal" data-target="#exampleModal">
+                    Időpont foglalás
+                    </button>
+                    {% else %}
+                    <a class="btn btn-lg btn-outline-light text-uppercase" href="{% url 'login' %}">Jelentkezzen be!</a>
+                    {% endif %}
+                  </div>
+              </div>
+                <div class="col-lg-6 px-5 my-3">
+                   <div class="py-5 border rounded-lg">
+                    <h3 class="text-uppercase font-weight-normal feher display-4">privát</h3>
+                       <i class="fas fa-user-shield icon"></i>
+                    <p  class="py-3 vkekp px-lg-5 px-3">Szabad mű választás lehetőségével várjuk csoportok jelentkezését</p>
+                    <a class="btn btn-lg btn-outline-light text-uppercase" href="{% url 'proapp:kapcsolat' %}">Kapcsolatfelvétel</a>
+                   </div>
+              </div>
+            </div>
+      </div>
+    </section>
+
+    <footer class="border-top my-5">
+      <div class="container mt-5 h-100 text-lg-left text-center">
+           <div class="row mt-5 h-100">
+              <div class="col-lg-4 text-center">
+                <a href="#" class="text-uppercase navlink" style="font-size: 2.5rem">Helyi könyvtár</a>
+              </div>
+               <div class="col-lg-3 ml-lg-5">
+                <p class="text-uppercase feher" style="font-size: 1.6rem">cím</p>
+                <p class="vkek">Valahol utca 1</p>
+                <p class="vkek">Valahol Város</p>
+              </div>
+              <div class="col-lg-3">
+                <p class="text-uppercase feher" style="font-size: 1.6rem">üzenet</p>
+                <p class="vkek">+0000000000000</p>
+                <p class="vkek">email@email.com</p>
+              </div>
+            </div>
+      </div>
+    </footer>
+
+
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Olvasóest időpont foglalás</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="foglalasform">
+                     {% csrf_token %}
+                     {{ form|crispy }}
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Mégse</button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 70 || document.documentElement.scrollTop > 70) {
+    $(".navbar").addClass('shadow-sm szurkehatter');
+
+  } else {
+    $(".navbar").removeClass('shadow-sm szurkehatter');
+  }
+  if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+    $(".navbar").removeClass('py-3')
+
+  } else {
+    $(".navbar").addClass('py-3');
+
+  }
+}
+
+$(".navbar-toggler").click(function (e) {
+    $(".navbar").toggleClass('szurkehatter');
+    e.preventDefault();
+});
+
+
+    $("#id_olvasoest").change(function (e) {
+        e.preventDefault();
+        var adatok = $("#foglalasform").serialize();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'proapp:estek' %}",
+            data: adatok,
+            success: function (response) {
+                $("#exampleModal").modal('hide');
+                $("#foglalasform").trigger('reset');
+                alert(response['uzenet']);
+            },
+            error: function (response) {
+                alert('Hiba történt!');
+                location.reload()
+            }
+        })
+    });
+    $("#id_olvasoest").change(function () {
+        $("#id_olvasoest").removeClass('is-invalid')
+    });
+
+</script>
+</body>
+</html>
