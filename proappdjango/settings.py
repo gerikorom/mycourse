@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8hy(lymewu%8ynyztquh(sjk8qy_a_b$=(iya#*p-dm=49+(a*'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -136,7 +136,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
-SEND_GRID_API = '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'
+SEND_GRID_API = ''
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
